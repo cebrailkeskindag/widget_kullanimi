@@ -14,6 +14,10 @@ class _AnasayfaState extends State<Anasayfa> {
   bool switchKontrol = false;
   bool checkboxKontrol = false;
   int radioDeger = 0;
+  bool progressKontrol = false;
+  double ilerleme = 50.0;
+  var tfSaat = TextEditingController();
+  var tfTarih = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +52,7 @@ class _AnasayfaState extends State<Anasayfa> {
                       });
                     },
                     child: const Text("Resim 1")),
-                Image.asset("resimler/$resimAdi"),//Localdeki resimleri yükler.
+                Image.asset("resimler/$resimAdi"), //Localdeki resimleri yükler.
                 /*  SizedBox(
                     width: 42,
                     height: 42,
@@ -121,11 +125,86 @@ class _AnasayfaState extends State<Anasayfa> {
                 ),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        progressKontrol = true;
+                      });
+                    },
+                    child: const Text("Başla")),
+                Visibility(
+                    visible: progressKontrol,
+                    child: const CircularProgressIndicator()),
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        progressKontrol = false;
+                      });
+                    },
+                    child: const Text("Dur")),
+              ],
+            ),
+            Text(ilerleme.toInt().toString()),
+            Slider(
+                min: 0.0,
+                max: 100.0,
+                value: ilerleme,
+                onChanged: (veri) {
+                  setState(() {
+                    ilerleme = veri;
+                  });
+                }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: TextField(
+                    controller: tfSaat,
+                    decoration: const InputDecoration(hintText: "Saat"),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      showTimePicker(
+                              context: context,
+                              initialTime:
+                                  TimeOfDay.fromDateTime(DateTime.now()))
+                          .then((value) {
+                        tfSaat.text = "${value!.hour} : ${value.minute}";
+                      });
+                    },
+                    icon: const Icon(Icons.access_time)),
+                SizedBox(
+                  width: 100,
+                  child: TextField(
+                    controller: tfTarih,//veriyi kontrol eder
+                    decoration: const InputDecoration(hintText: "Tarih"),//Text içi boşken görünür veri girince kaybolur.
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),//Anlık tarihi belirtir
+                          firstDate: DateTime(2000),//Başlangıç yılı
+                          lastDate: DateTime(2040))//Bitiş yılı
+                          .then((value) {
+                        tfTarih.text = "${value!.day} / ${value.month} / ${value.year}";//takvimde seçilen tarihleri texte gösterir.
+                      });
+                    },
+                    icon: const Icon(Icons.date_range)),//İcon tipini belirtir.
+              ],
+            ),
             ElevatedButton(
                 onPressed: () {
                   print("Switch durum: $switchKontrol");
                   print("Checkbox durum: $checkboxKontrol");
                   print("Radio durum: $radioDeger");
+                  print("Slider durum: $ilerleme");
                 },
                 child: const Text("Göster")),
           ],
