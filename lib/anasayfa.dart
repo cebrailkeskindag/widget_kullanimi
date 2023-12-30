@@ -18,196 +18,244 @@ class _AnasayfaState extends State<Anasayfa> {
   double ilerleme = 50.0;
   var tfSaat = TextEditingController();
   var tfTarih = TextEditingController();
+  var ulkelerListesi = <String>[];
+  String secilenUlke = "Türkiye";
+
+  @override
+  void initState() {
+    super.initState();
+    ulkelerListesi.add("Türkiye");
+    ulkelerListesi.add("İspanya");
+    ulkelerListesi.add("Portekiz");
+    ulkelerListesi.add("Fransa");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Widgets")),
-      body: Center(
-        child: Column(
-          children: [
-            Text(alinanVeri),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                controller: tfController,
-                decoration: const InputDecoration(hintText: "Veri"),
-                keyboardType: TextInputType.number,
-                obscureText: true,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Text(alinanVeri),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: TextField(
+                  controller: tfController,
+                  decoration: const InputDecoration(hintText: "Veri"),
+                  keyboardType: TextInputType.number,
+                  obscureText: true,
+                ),
               ),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    alinanVeri = tfController.text;
-                  });
-                },
-                child: const Text("Veriyi Al")),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        resimAdi = "smile.png";
-                      });
-                    },
-                    child: const Text("Resim 1")),
-                Image.asset("resimler/$resimAdi"), //Localdeki resimleri yükler.
-                /*  SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: Image.network(//internetteki resimleri kullanmamıza olanak sağlar.
-                        "https://kasimadalan.pe.hu/yemekler/resimler/$resimAdi")),*/
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        resimAdi = "sad.png";
-                      });
-                    },
-                    child: const Text("Resim 2")),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 190,
-                  child: SwitchListTile(
-                      title: const Text("Dart"),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      value: switchKontrol,
-                      onChanged: (veri) {
+              ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      alinanVeri = tfController.text;
+                    });
+                  },
+                  child: const Text("Veriyi Al")),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
                         setState(() {
-                          switchKontrol = veri;
+                          resimAdi = "smile.png";
                         });
-                      }),
-                ),
-                SizedBox(
-                  width: 190,
-                  child: CheckboxListTile(
-                      title: const Text("Flutter"),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      value: checkboxKontrol,
-                      onChanged: (veri) {
+                      },
+                      child: const Text("Resim 1")),
+                  Image.asset(
+                      "resimler/$resimAdi"), //Localdeki resimleri yükler.
+                  /*  SizedBox(
+                      width: 42,
+                      height: 42,
+                      child: Image.network(//internetteki resimleri kullanmamıza olanak sağlar.
+                          "https://kasimadalan.pe.hu/yemekler/resimler/$resimAdi")),*/
+                  ElevatedButton(
+                      onPressed: () {
                         setState(() {
-                          checkboxKontrol = veri!;
+                          resimAdi = "sad.png";
                         });
-                      }),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 190,
-                  child: RadioListTile(
-                      title: const Text("Barcelona"),
-                      value: 1,
-                      groupValue: radioDeger,
-                      onChanged: (veri) {
-                        setState(() {
-                          radioDeger = veri!;
-                        });
-                      }),
-                ),
-                SizedBox(
-                  width: 190,
-                  child: RadioListTile(
-                      title: const Text("Real Madrid"),
-                      value: 2,
-                      groupValue: radioDeger,
-                      onChanged: (veri) {
-                        setState(() {
-                          radioDeger = veri!;
-                        });
-                      }),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        progressKontrol = true;
-                      });
-                    },
-                    child: const Text("Başla")),
-                Visibility(
-                    visible: progressKontrol,
-                    child: const CircularProgressIndicator()),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        progressKontrol = false;
-                      });
-                    },
-                    child: const Text("Dur")),
-              ],
-            ),
-            Text(ilerleme.toInt().toString()),
-            Slider(
-                min: 0.0,
-                max: 100.0,
-                value: ilerleme,
-                onChanged: (veri) {
-                  setState(() {
-                    ilerleme = veri;
-                  });
-                }),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    controller: tfSaat,
-                    decoration: const InputDecoration(hintText: "Saat"),
+                      },
+                      child: const Text("Resim 2")),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 190,
+                    child: SwitchListTile(
+                        title: const Text("Dart"),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: switchKontrol,
+                        onChanged: (veri) {
+                          setState(() {
+                            switchKontrol = veri;
+                          });
+                        }),
                   ),
-                ),
-                IconButton(
-                    onPressed: () {
-                      showTimePicker(
-                              context: context,
-                              initialTime:
-                                  TimeOfDay.fromDateTime(DateTime.now()))
-                          .then((value) {
-                        tfSaat.text = "${value!.hour} : ${value.minute}";
-                      });
-                    },
-                    icon: const Icon(Icons.access_time)),
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    controller: tfTarih,//veriyi kontrol eder
-                    decoration: const InputDecoration(hintText: "Tarih"),//Text içi boşken görünür veri girince kaybolur.
+                  SizedBox(
+                    width: 190,
+                    child: CheckboxListTile(
+                        title: const Text("Flutter"),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: checkboxKontrol,
+                        onChanged: (veri) {
+                          setState(() {
+                            checkboxKontrol = veri!;
+                          });
+                        }),
                   ),
-                ),
-                IconButton(
-                    onPressed: () {
-                      showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),//Anlık tarihi belirtir
-                          firstDate: DateTime(2000),//Başlangıç yılı
-                          lastDate: DateTime(2040))//Bitiş yılı
-                          .then((value) {
-                        tfTarih.text = "${value!.day} / ${value.month} / ${value.year}";//takvimde seçilen tarihleri texte gösterir.
-                      });
-                    },
-                    icon: const Icon(Icons.date_range)),//İcon tipini belirtir.
-              ],
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  print("Switch durum: $switchKontrol");
-                  print("Checkbox durum: $checkboxKontrol");
-                  print("Radio durum: $radioDeger");
-                  print("Slider durum: $ilerleme");
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 190,
+                    child: RadioListTile(
+                        title: const Text("Barcelona"),
+                        value: 1,
+                        groupValue: radioDeger,
+                        onChanged: (veri) {
+                          setState(() {
+                            radioDeger = veri!;
+                          });
+                        }),
+                  ),
+                  SizedBox(
+                    width: 190,
+                    child: RadioListTile(
+                        title: const Text("Real Madrid"),
+                        value: 2,
+                        groupValue: radioDeger,
+                        onChanged: (veri) {
+                          setState(() {
+                            radioDeger = veri!;
+                          });
+                        }),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          progressKontrol = true;
+                        });
+                      },
+                      child: const Text("Başla")),
+                  Visibility(
+                      visible: progressKontrol,
+                      child: const CircularProgressIndicator()),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          progressKontrol = false;
+                        });
+                      },
+                      child: const Text("Dur")),
+                ],
+              ),
+              Text(ilerleme.toInt().toString()),
+              Slider(
+                  min: 0.0,
+                  max: 100.0,
+                  value: ilerleme,
+                  onChanged: (veri) {
+                    setState(() {
+                      ilerleme = veri;
+                    });
+                  }),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      controller: tfSaat,
+                      decoration: const InputDecoration(hintText: "Saat"),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        showTimePicker(
+                                context: context,
+                                initialTime:
+                                    TimeOfDay.fromDateTime(DateTime.now()))
+                            .then((value) {
+                          tfSaat.text = "${value!.hour} : ${value.minute}";
+                        });
+                      },
+                      icon: const Icon(Icons.access_time)),
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                      controller: tfTarih, //veriyi kontrol eder
+                      decoration: const InputDecoration(
+                          hintText:
+                              "Tarih"), //Text içi boşken görünür veri girince kaybolur.
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        showDatePicker(
+                                context: context,
+                                initialDate:
+                                    DateTime.now(), //Anlık tarihi belirtir
+                                firstDate: DateTime(2000), //Başlangıç yılı
+                                lastDate: DateTime(2040)) //Bitiş yılı
+                            .then((value) {
+                          tfTarih.text =
+                              "${value!.day} / ${value.month} / ${value.year}"; //takvimde seçilen tarihleri texte gösterir.
+                        });
+                      },
+                      icon:
+                          const Icon(Icons.date_range)), //İcon tipini belirtir.
+                ],
+              ),
+              DropdownButton(
+                  value: secilenUlke,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  items: ulkelerListesi.map((ulke) {
+                    return DropdownMenuItem(value: ulke, child: Text(ulke));
+                  }).toList(),
+                  onChanged: (veri) {
+                    setState(() {
+                      secilenUlke = veri!;
+                    });
+                  }),
+              GestureDetector(
+                onTap: () {
+                  print("Tek tıklandı.");
                 },
-                child: const Text("Göster")),
-          ],
+                onDoubleTap: () {
+                  print("Çift tıklandı.");
+                },
+                onLongPress: () {
+                  print("Uzun tıklandı.");
+                },
+                child: Container(
+                  height: 200,
+                  width: 400,
+                  color: Colors.green,
+                ),
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    print("Switch durum: $switchKontrol");
+                    print("Checkbox durum: $checkboxKontrol");
+                    print("Radio durum: $radioDeger");
+                    print("Slider durum: $ilerleme");
+                    print("Seçilen son ülke: $secilenUlke");
+                  },
+                  child: const Text("Göster")),
+            ],
+          ),
         ),
       ),
     );
